@@ -33,6 +33,7 @@ define([
 		initialize: function () {
 			this.allCheckbox = this.$('#toggle-all')[0];
 			this.$input = this.$('#new-todo');
+			this.$date = this.$('#new-date');//Listens to Date
 			this.$footer = this.$('#footer');
 			this.$main = this.$('#main');
 
@@ -42,7 +43,7 @@ define([
 			this.listenTo(Todos, 'filter', this.filterAll);
 			this.listenTo(Todos, 'all', this.render);
 
-			Todos.fetch();
+			Todos.fetch({reset:true});
 		},
 
 		// Re-rendering the App just means refreshing the statistics -- the rest
@@ -97,6 +98,7 @@ define([
 		newAttributes: function () {
 			return {
 				title: this.$input.val().trim(),
+				date: this.$date.val().trim(), //Added Date here
 				order: Todos.nextOrder(),
 				completed: false
 			};
@@ -110,6 +112,7 @@ define([
 			}
 
 			Todos.create(this.newAttributes());
+			this.$date.val('');//Added date
 			this.$input.val('');
 		},
 
